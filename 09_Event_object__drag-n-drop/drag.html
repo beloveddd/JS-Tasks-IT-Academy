@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Document for Drag'n'Drop example</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      position: relative;
+    }
+
+    #drag-element {
+      width: 200px;
+      height: 200px;
+      border: 4px red solid;
+      background-color: rgba(0, 0, 0, .1);
+      cursor: pointer;
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+
+    #drag-parent {
+      width: 500px;
+      height: 500px;
+      border: 4px blue solid;
+      background-color: rgba(0, 0, 0, .1);
+      margin-top: 224px;
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 
+  dragstart
+  drag
+  dragend
+
+  dragenter
+  dragleave
+  dragover
+  drop
+  -->
+
+  <div id="drag-element" draggable="true"></div>
+  <div id="drag-parent"></div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const elem = document.querySelector('#drag-element');
+    const parent = document.querySelector('#drag-parent');
+
+    elem.addEventListener('dragstart', function(event) {
+      console.log('dragstart!');
+      this.style.borderColor = 'green';
+    });
+
+    /*elem.addEventListener('drag', function(event) {
+      console.log(event);
+    });*/
+
+    elem.addEventListener('dragend', function(event) {
+      console.log('dragend!');
+      this.style.borderColor = 'red';
+    });
+
+    parent.addEventListener('dragenter', function(event) {
+      console.log('dragenter!');
+      this.style.borderColor = 'red';
+      this.style.borderStyle = 'dashed';
+    });
+
+    parent.addEventListener('dragover', function(event) {
+      event.preventDefault();
+      //console.log('dragover...');
+    });
+
+    parent.addEventListener('dragleave', function(event) {
+      event.preventDefault();
+      console.log('dragleave...');
+      this.style.borderColor = 'blue';
+      this.style.borderStyle = 'solid';
+    });
+
+    parent.addEventListener('drop', function(event) {
+      console.log('drop!!!');
+      console.log(event);
+      elem.style.position = 'static';
+      this.style.borderColor = 'blue';
+      this.style.borderStyle = 'solid';
+      this.append(elem);
+    });
+  });
+</script>
+
+</body>
+</html>
+

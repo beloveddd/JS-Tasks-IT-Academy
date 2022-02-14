@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>MVC example</title>
+    <style>
+      body {
+        font-size: 21px;
+        text-align: center;
+      }
+
+      input {
+        min-width: 180px;
+        padding: 8px 12px;
+        border: 1px gray solid;
+        border-radius: 3px;
+        margin: 0 5px;
+      }
+
+      button {
+        font-size: 18px;
+        line-height: 21px;
+        padding: 10px;
+        border-radius: 5px;
+      }
+
+      select {
+        min-width: 150px;
+        padding: 6px 10px;
+        border: 1px gray solid;
+        border-radius: 3px;
+        margin: 0 5px;
+        text-align: center;
+        font-size: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>JdayS</h1>
+
+    <h3>MVC</h3>
+    <form>
+      <fieldset>
+        <legend>Магия чисел</legend>
+        <p>
+          <input
+            type="number"
+            placeholder="Введите первое значение"
+            name="input_1"
+            id="input_1"
+          />
+          <select id="select">
+            <option>*</option>
+            <option>/</option>
+            <option>+</option>
+            <option>-</option>
+          </select>
+          <input
+            type="number"
+            placeholder="Введите второе значение"
+            name="input_2"
+            id="input_2"
+          />
+        </p>
+        <p>
+          <button id="calculate-btn">Вычислить</button>
+        </p>
+        <div id="show-result"></div>
+      </fieldset>
+    </form>
+
+    <script>
+
+      //contoller
+      const controller = {
+        firstInput: document.getElementById("input_1"),
+        secondInput: document.getElementById("input_2"),
+        btn: document.getElementById("calculate-btn"),
+        selectInp: document.getElementById("select"),
+
+        btnOn() {
+          this.btn.disabled = true;
+          this.firstInput.addEventListener("input", () => this.check());
+          this.secondInput.addEventListener("input", () => this.check());
+          this.btn.addEventListener("click", () => this.addEvent(event));
+        },
+
+        check() {
+          this.firstInput.value && this.secondInput.value ? (this.btn.disabled = false) : (this.btn.disabled = true);
+        },
+
+        addEvent(event) {
+          event.preventDefault();
+          model.count(this.firstInput.value, this.secondInput.value, this.selectInp.value);
+        },
+      };
+
+      controller.btnOn();
+
+        //model
+        const model = {
+        count(firstInput, secondInput, select) {
+        let res = `${firstInput}${select}${secondInput}`;
+
+        (eval(res)) === Infinity ? view.draw(`Чувак, на 0 делить нельзя`) : view.draw(eval(res));
+        },
+      };
+   
+
+      //view
+      const view = {
+        draw(res) {
+          let result = document.getElementById("show-result");
+          (typeof res === "number") ? result.innerHTML = `Результат вычислений = ${res}` : result.innerHTML = res;
+        },
+      };
+
+    </script>
+  </body>
+</html>

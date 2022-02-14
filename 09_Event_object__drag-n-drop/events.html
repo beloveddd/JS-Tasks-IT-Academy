@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    a, input  {
+        display: block;
+        margin: 10px;
+    }
+</style>
+<body>
+    <div id="links">
+        <p>Links</p>
+        <a href="https://www.mk.ru/anekdoti/" title="anekdoty">Смеяться</a>
+        <a href="https://sefon.pro/artist/1320-grigorij-leps/" title="Leps's songs">Петь</a>
+        <a href="https://vse-kursy.com/read/279-uroki-tancev-onlain-dlya-nachinayuschih.html" title="dance classes">Танцевать</a>
+    </div>
+
+    <div id="inputs">
+        <p>Inputs</p>
+        <input type="text">
+        <input type="text">
+        <input type="text">
+        <input type="text">
+    </div>
+
+    <div id="paragraphs">
+        <p>Paragraphs</p>
+        <p>2</p>
+        <p>4</p>
+        <p>6</p>
+        <p>8</p>
+    </div>
+
+    <div id="validation">
+        <p>Validation Inputs</p>
+        <input type="text" data-length="8" value="8">
+        <input type="text" data-length="3" value="3">
+        <input type="text" data-length="4" value="4">
+        <input type="text" data-length="5" value="5">
+    </div>
+
+<script>
+    // links
+
+    const linkDiv = document.getElementById('links');
+
+    linkDiv.addEventListener("mouseover", changeLink);
+
+    function changeLink(event) {
+        let ev = event.target;
+        
+
+        if (ev.tagName !== 'A') return;
+        
+        let href = ev.href;
+        let title = ev.title;
+        ev.textContent = '';
+        console.log(title);
+        ev.append(`${title} (${href})`);
+        ev.addEventListener("mouseout", deleteEvent);
+       
+    }
+
+    function deleteEvent(event) {
+        ev = event.target;
+        console.log(ev);
+        ev.removeEventListener("mouseover", changeLink);
+    }
+
+    // inputs
+    
+    const linkInput = document.getElementById('inputs');
+    
+    linkInput.addEventListener("click", getValue);
+
+    function getValue(event) {
+        let ev = event.target;
+        let value = ev.value;
+        if (ev.tagName !== 'INPUT') return;
+        if (value !== "") {
+            console.log(value);
+        }
+    }
+
+    // paragraphs
+    
+    const linkP = document.getElementById('paragraphs');
+    
+    linkP.addEventListener("click", squareNumber);
+
+    function squareNumber(event) {
+        let ev = event.target;
+        let num = ev.textContent;
+
+        if (ev.tagName !== 'P') return;
+        
+        let squareNum = num ** 2;
+        console.log(squareNum);
+
+        ev.textContent = '';
+        ev.append(`${squareNum}`);
+    }
+
+    // validation inputs
+
+    const linkValidation = document.getElementById('validation');
+    
+    linkValidation.addEventListener("click", findInput);
+    
+    function findInput(event) {
+        let ev = event.target;
+        let value = ev.textContent;
+        ev.addEventListener("blur", checkLength);
+        
+    }
+
+    function checkLength(event) {
+        let ev = event.target;
+        let text = ev.value;
+        let length = text.length;
+        if (length == ev.dataset.length) {
+            ev.style.borderColor = "green";
+        } else {
+            ev.style.borderColor = "red";
+        }
+    }
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,14 @@
+1) http://fe.it-academy.by/ViewSlides.php?slide=13380&lect=70
+2) http://fe.it-academy.by/ViewSlides.php?slide=13381&lect=70
+
+https://habr.com/ru/company/ruvds/blog/333856/
+
+!!! кому хочется докопаться до сути
+https://habr.com/ru/post/321050/ и https://habr.com/ru/post/322700/
+
+
+Редакторы кода для совместной работы:
+1) https://replit.com
+2) https://syncfiddle.net/
+
+и плагин для Visual Studio Code для совместного программирования - https://code.visualstudio.com/learn/collaboration/live-share

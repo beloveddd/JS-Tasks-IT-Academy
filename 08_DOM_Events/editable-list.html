@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Hello</title>
+    </head>
+    <body>
+
+        <div class="container">
+            <ol id="list">
+
+            </ol>
+
+            <input id="enterValues" type="text">
+            <button id="add">Add</button>
+            <button id="remove">Remove</button>
+            
+            <input type="text" id="testInput">
+
+        </div>
+        
+        <script>
+
+            const inputMeow = document.getElementById('testInput');
+            document.getElementById('testInput').hidden = true;
+
+            // создание списка из массива
+
+            const listArray = [ 
+                "Первый пункт",  
+                "Второй пункт",  
+                "Третий пункт",  
+                "Четвертый пункт",
+                "Пятый пункт",
+            ];
+            
+            function createList() {
+                const list = document.getElementById('list');
+                let elemList = '';
+
+                listArray.forEach( (element) => {
+                    elemList += `<li>${element}</li>`;
+                });
+
+                list.innerHTML = elemList;
+
+            }
+
+            createList();
+
+            // реализация добавления значения из инпута в конец списка
+
+            const addBtn = document.getElementById('add');
+            addBtn.addEventListener("click", addValue);
+            
+            function addValue() {
+                let inputValue = document.getElementById('enterValues').value;
+                if (inputValue) {
+                    const list = document.querySelector('#list');
+                    let newLi = document.createElement('li');
+                    newLi.innerHTML = inputValue;
+                    list.append(newLi);
+                }
+                
+                removeBtn.disabled = false;
+                document.getElementById('enterValues').value = "";
+
+
+                
+            }
+
+            // реализация удаления пункта списка с конца
+
+            const removeBtn = document.getElementById('remove');
+            removeBtn.addEventListener("click", removeValue);
+
+            function removeValue() {
+                let list = document.querySelector('#list');
+                let listCollection = document.querySelector('#list').children;
+
+                if (listCollection.length === 1) {
+                    removeBtn.disabled = true;
+                }
+
+                let lastLi = listCollection[listCollection.length-1];
+                list.removeChild(lastLi);
+            }
+
+            // реализация редактирования пункта списка
+
+            const olField = document.getElementById('list');
+            olField.addEventListener("click", changeInputq);
+            let newInput;
+
+            function changeInputq(event) {
+                let ev = event.target;
+
+                if (ev.tagName === "LI") {
+                    let valLi = ev.textContent;
+                    newInput = document.createElement('input');
+                    newInput.type = 'text';
+                    newInput.value = valLi;
+                    newInput.classList = "newInput";
+                    ev.textContent = '';
+                    ev.append(newInput);
+                    newInput.focus();
+                    newInput.addEventListener("blur", changeInput3q);
+                }
+
+                
+            }
+
+            function changeInput3q(event) {
+                let valInput = newInput.value;
+                
+                if (!valInput) {
+                    newInput.hidden = true;
+                    ev = event.target;
+                    let parentLi = ev.parentNode;
+                    parentLi.hidden = true;
+                }
+
+                newInput.hidden = true;
+                ev = event.target;
+                let parentLi = ev.parentNode;
+                console.dir(parentLi);
+                parentLi.textContent = valInput;
+                
+            }
+
+
+        </script>
+    </body>
+</html>

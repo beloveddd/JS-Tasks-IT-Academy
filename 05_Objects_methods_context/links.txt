@@ -1,0 +1,8 @@
+1) https://learn.javascript.ru/object-methods
+2) http://old.code.mu/javascript/context/this.html
+3) https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Function/call, 
+https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Function/apply, 
+https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Function/bind, 
+https://learn.javascript.ru/call-apply-decorators
+4) https://learn.javascript.ru/date
+*) https://learn.javascript.ru/document

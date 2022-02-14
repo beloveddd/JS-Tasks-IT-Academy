@@ -1,0 +1,10 @@
+closures:
+0) http://fe.it-academy.by/Examples/Program/VisibilityArea.html
+1) http://fe.it-academy.by/Examples/Program/Closure.html
+2) http://fe.it-academy.by/Examples/Program/ClosureRef.html
+3) https://learn.javascript.ru/closure
+
+carry:
+1) https://stasonmars.ru/javascript/ponimaem-carrirovanie-v-javascript/
+2) http://prgssr.ru/development/vvedenie-v-karrirovanie-v-javascript.html
+3) https://medium.com/nuances-of-programming/бесконечное-каррирование-в-javascript-9e46cf4abff9

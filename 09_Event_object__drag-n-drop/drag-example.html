@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Exo+2" rel="stylesheet">
+  <style>
+    body {
+      padding: 20px;
+      margin: 0;
+      font-family: 'Exo 2', sans-serif;
+      box-sizing: border-box;
+    }
+
+    .services-list {
+      min-height: 320px;
+      float: left;
+      width: 30%;
+      border: 2px solid #333;
+      border-radius: 10px;
+      margin: 10px 20px 15px 0;
+      padding: 10px;
+    }
+
+    .parent-over {
+      background-color: rgba(0, 0, 0, .1);
+      border-style: dashed;
+    }
+
+    .services-list__item {
+      text-decoration: none;
+      color: #fff;
+      padding: 5px;
+      display: block;
+      border-radius: 5px;
+      margin-bottom: 5px;
+      border: 2px transparent dashed;
+    }
+
+    .dragging {
+      border: 2px red dashed;
+    }
+
+    #services-list a {
+      background: brown;
+    }
+
+    #services-choice a {
+      background: darkgreen;
+    }
+
+    #services-list a:hover,
+    #services-choice a:hover {
+      background-color: yellow;
+      color: blue;
+      text-decoration: none;
+    }
+
+    .button {
+      width: calc(60% + 40px);
+      clear: both;
+      text-align: center;
+      padding: 15px;
+    }
+
+    .final {
+      padding: 12px 15px;
+      font-size: 18px;
+      line-height: 24px;
+      box-shadow: inset 0px 1px 0px 0px #caefab;
+      background: linear-gradient(to bottom, #77d42a 5%, #5cb811 100%);
+      background-color: #77d42a;
+      border-radius: 6px;
+      border: 1px solid #268a16;
+      display: inline-block;
+      cursor: pointer;
+      color: #306108;
+      font-family: Arial;
+      font-size: 15px;
+      font-weight: bold;
+      padding: 6px 24px;
+      text-decoration: none;
+      text-shadow: 0px 1px 0px #aade7c;
+    }
+    .final[disabled],
+    .final[disabled]:hover,
+    .final[disabled]:active {
+      box-shadow: inset 0px 1px 0px 0px #caefab;
+      background: linear-gradient(to bottom, #77d42a 5%, #5cb811 100%);
+      background-color: #77d42a;
+      border:1px solid #268a16;
+      opacity: 0.7;
+    }
+
+    .final:hover {
+      background: linear-gradient(to bottom, #5cb811 5%, #77d42a 100%);
+      background-color: #5cb811;
+    }
+
+    .final:focus {
+      outline: none;
+    }
+
+    .final:active {
+      position: relative;
+      top: 1px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <h1>Drag and Drop</h1>
+  <h2>Вариант практического применения</h2>
+
+  <div class="example">
+    <h3>Выберите услуги:</h3>
+    <div class="services-list" id="services-list">
+      <a href="#" draggable="true" class="services-list__item" id="service_1">Замена матрицы</a>
+      <a href="#" draggable="true" class="services-list__item" id="service_2">Замена экрана</a>
+      <a href="#" draggable="true" class="services-list__item" id="service_3">Замена батареи</a>
+      <a href="#" draggable="true" class="services-list__item" id="service_4">Замена клавиатуры</a>
+      <a href="#" draggable="true" class="services-list__item" id="service_5">Замена радиатора</a>
+      <a href="#" draggable="true" class="services-list__item" id="service_6">Чистка ноутбука</a>
+      <a href="#" draggable="true" class="services-list__item" id="service_7">Переустановка программ</a>
+      <a href="#" draggable="true" class="services-list__item" id="service_8">Утилизация</a>
+    </div>
+    <div class="services-list" id="services-choice"></div>
+
+    <div class="button">
+      <button class="final">Заказать</button>
+    </div>
+  </div>
+
+  <script>
+    const services = {};
+    const btnFinal = document.querySelector(".final");
+    const servicesDiv = document.getElementById("services-list");
+    const choiceDiv = document.getElementById("services-choice");
+    const servicesList = document.getElementsByClassName("services-list__item");
+
+    /*console.log("servicesDiv:", servicesDiv);
+    console.log("choiceDiv:", choiceDiv);*/
+
+    btnFinal.disabled = true;
+
+    choiceDiv.addEventListener("dragover", function(event) {
+      event.preventDefault();
+      this.classList.add("parent-over");
+    });
+
+    choiceDiv.addEventListener("dragleave", function(event) {
+      this.classList.remove("parent-over");
+    });
+
+    choiceDiv.addEventListener("drop", function(event) {
+      event.preventDefault();
+      dropElement.call(this);
+    });
+
+    servicesDiv.addEventListener("dragover", function(event) {
+      event.preventDefault();
+      this.classList.add("parent-over");
+    });
+
+    servicesDiv.addEventListener("dragleave", function(event) {
+      this.classList.remove("parent-over");
+    });
+
+    servicesDiv.addEventListener("drop", function(event) {
+      event.preventDefault();
+      dropElement.call(this);
+    });
+
+    for (let i = 0; i < servicesList.length; i++) {
+      servicesList[i].addEventListener("dragstart", function(event) {
+        this.classList.add("dragging");
+        event.dataTransfer.setData("text", event.target.id);
+        event.dataTransfer.setData("content", event.target.textContent);
+      });
+
+      servicesList[i].addEventListener("dragend", function(event) {
+        this.classList.remove("dragging");
+      });
+    }
+
+    function dropElement() {
+      let data = event.dataTransfer.getData("text");
+      let content = event.dataTransfer.getData("content");
+
+      //console.log("this on drop event:", this);
+
+      if (this === choiceDiv && !(data in services)){
+        //console.log(services);
+        services[data] = content;
+      }
+
+      if (this === servicesDiv){
+        //console.log(services);
+        delete services[data];
+      }
+
+      this.append(document.getElementById(data));
+
+      btnFinal.disabled = (Object.keys(services).length > 0) ? false : true;
+
+      choiceDiv.classList.remove("parent-over");
+      servicesDiv.classList.remove("parent-over");
+
+      /*console.log(services);*/
+    }
+
+    btnFinal.addEventListener("click", function(event) {
+      event.preventDefault();
+
+      console.log("services:", services);
+
+      const serviceslist = Object.values(services).join(" \n");
+
+      console.log(serviceslist);
+
+      if (confirm("Вы точно хотите заказать следующие услуги?\n" + serviceslist)) {
+        console.log(Object.keys(services));
+      }
+    });
+  </script>
+
+</body>
+</html>

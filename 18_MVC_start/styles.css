@@ -1,0 +1,95 @@
+/* DOM */
+*{
+    margin: 0px;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#container {
+    display: flex;
+    justify-content: center;
+}
+
+#containerDOM,
+#containerSVG,
+#containerCanvas {
+    margin: 0px 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+#containerDOM > div,
+#containerSVG > div,
+#containerCanvas > div {
+    margin: 5px 20px;
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+.buttons > button {
+    margin: 0 5px;
+    padding: 3px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.clock {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(227, 227, 227);
+    border-radius:50%;
+    background-size: cover;
+    border-radius: 50%; 
+    position: relative;
+}
+
+.numbers {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    border-radius: 50%;
+    background-size: cover;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight: bold;
+}
+
+.hr, .mn, .sc {
+    position: absolute;
+    border-radius: 5px;
+}
+
+.hr {
+    background-color: rgb(36, 36, 36);
+    z-index: 10;
+}
+
+.mn {
+    background-color: white;
+    z-index: 11;
+}
+
+.sc {
+    background-color: red;
+    z-index: 12;
+}
+
+.numb {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.center {
+    position: absolute;
+    background-color: #ffffff;
+    border-radius: 50%;
+    z-index: 999;
+}

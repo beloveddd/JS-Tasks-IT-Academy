@@ -1,0 +1,3 @@
+1) http://fe.it-academy.by/Examples/Program/Class.html
+2) https://learn.javascript.ru/prototypes
+3) https://learn.javascript.ru/classes

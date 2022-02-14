@@ -1,0 +1,63 @@
+body {
+    text-align: center;
+    background: #b7bcfc;
+    font-family: sans-serif;
+    font-weight: 100;
+  }
+  
+  .countdown-title,
+  .form p {
+    color: rgb(46, 40, 40);
+    font-weight: 100;
+    font-size: 40px;
+    margin: 40px 0px 20px;
+  }
+
+  .form input {
+    padding: 10px;
+    border: 3px solid #4652ff;
+    border-radius: 10px;
+    background: transparent;
+    height: 30px;
+    width: 250px;
+    font-family: inherit;
+  }
+
+  .form button {
+      padding: 10px 25px;
+      text-decoration: none;
+      font-family: inherit;
+      font-size: 20px;
+      background: transparent;
+      border: 3px solid #4652ff;
+      border-radius: 10px;
+  }
+  
+  .countdown {
+    font-family: sans-serif;
+    color: rgb(56, 53, 53);
+    display: inline-block;
+    font-weight: 100;
+    text-align: center;
+    font-size: 30px;
+  }
+  
+  .countdown-number {
+    padding: 10px;
+    border-radius: 3px;
+    background: #979dfc;
+    display: inline-block;
+  }
+  
+  .countdown-time {
+    padding: 15px;
+    border-radius: 3px;
+    background: #6a74ff;
+    display: inline-block;
+  }
+  
+  .countdown-text {
+    display: block;
+    padding-top: 5px;
+    font-size: 16px;
+  }

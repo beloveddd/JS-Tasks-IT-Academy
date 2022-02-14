@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="add">Ввод рецепта</button>
+    <button id="recipe">Рецепт напитка</button>
+    <button id="delete">Удаление рецепта</button>
+    <button id="list">Перечень всех коктейлей</button>
+
+    <div class="coctails">
+      <h2 id="name"></h2>
+      <p id="ingredients"></p>
+      <p id="line"></p>
+      <p id="listCoctails"></p>
+    </div>
+
+    <script>
+      // создание функции-конструктора
+
+      function HashStorage() {
+        this.storage = {};
+      }
+
+      HashStorage.prototype.addValue = function (coctailName, description) {
+        return (this.storage[coctailName] = description);
+      };
+
+      HashStorage.prototype.getValue = function (key) {
+        return this.storage[key];
+      };
+
+      HashStorage.prototype.deleteValue = function (key) {
+        return delete this.storage[key] ? true : false;
+      };
+
+      HashStorage.prototype.getKeys = function () {
+        return Object.keys(this.storage);
+      };
+
+      // создание объекта-потомка на основе функции-конструтора
+
+      const coctailsStorage = new HashStorage();
+
+      const parentGetValue = HashStorage.prototype.getValue; // присваивание переменной метода из функции конструктора для того, чтобы дополнить свой метод в объекте coctailsStorage
+
+      // описываем дополненный метод getValue для нового объекта coctailsStorage
+
+      coctailsStorage.addValueOnPage = function (key) {
+        return (coctailsStorage.getValue = (function () {
+          parentGetValue.call(coctailsStorage, key);
+          const isAclo = Object(coctailsStorage.storage[key].alco);
+          const recipe = Object(coctailsStorage.storage[key].recipe);
+          const ingredients = Object(coctailsStorage.storage[key].ingredients);
+
+          // тут уже ничего не работает
+          const nameAlc = document.getElementById('name');
+          nameAlc.innerHTML = `Коктейль ${key} (алкогольный: ${isAclo})`;
+
+          let ingredientsOnPage = document.getElementById('ingredients');
+
+          let lineIngredientsOnPage = '';
+          for (let j = 0; j <= ingredients.length - 1; j++) {
+          
+          lineIngredientsOnPage += `<li>${ingredients[j]}</li>`;
+          }
+
+          ingredientsOnPage.innerHTML = `Игредиенты: ${lineIngredientsOnPage}`;
+
+          let recipeOnPage = document.getElementById('line');
+          recipeOnPage.innerHTML = `Рецепт: ${recipe}`;
+        })());
+      };
+
+      
+
+      // добавление в массив storage
+
+      coctailsStorage.addValue('Маргарита', {
+        alco: 'да',
+        ingredients: [
+          'Водка Finlandia 50 мл', 
+          'Кофейный ликер 25 мл', 
+          'Лед в кубиках 120 г',
+        ],
+        recipe: 'Наполни стакан кубиками льда доверху, затем налей кофейный ликер 25 мл, водку 50 мл и размешай коктейльной ложкой.',
+      });
+
+      coctailsStorage.addValue('Френч 75', {
+        alco: 'да',
+        ingredients: [
+          'Лондонский сухой джин 30 мл',
+          'Просекко 90 мл',
+          'Сахарный сироп 20 мл',
+          'Лимонный сок 15 мл',
+          'Лед в кубиках 200 г',
+          ],
+        recipe:
+          'Наполни шейкер кубиками льда и взбей, наполни шейкер кубиками льда и взбей, перелей через стрейнер в охлажденный флюте, долей просекко доверху и аккуратно размешай коктейльной ложкой.',
+      });
+
+      coctailsStorage.addValue('Беллини', {
+        alco: 'да',
+        ingredients: [
+          'Просекко 100 мл',
+          'Саханый сироп 10 мл',
+          'Лимонный сок 10 мл',
+          'Персиковое пюре 20 г',
+          'Персик 15 г',
+          'Лед в кубиках 300 г',
+        ],
+        recipe:
+          'Положи в стакан для смешивания персиковое пюре 4 к. ложки, добавь лимонный сок, сахарный сироп и просекко 50 мл, наполни стакан кубиками льда и аккуратно размешай коктейльной ложкой, перелей через стрейнер и ситечко в бокал флюте, долей просекко доверху, укрась долькой персика',
+      });
+
+      coctailsStorage.addValue('Пеликан', {
+        alco: 'нет',
+        ingredients: [
+          'Гренадин Monin 10 мл',
+          'Клубничный сироп Monin 10 мл',
+          'Персиковый сок 150 мл',
+          'Лимонный сок 15мл',
+          'Банан 110 г',
+          'Клубника 50г',
+          'Дробленый лед 60г',
+        ],
+        recipe:
+          'Положи в блендер очищенную и нарезанную половинку банана и клубнику 2 ягоды. Налей лимонный сок 15 мл, гренадин 10 мл, клубничный сироп 10 мл и персиковый сок 150 мл. Добавь в блендер совок дробленого льда и взбей. Перелей в хайбол. Укрась кружком банана и половинкой клубники на коктейльной шпажке.',
+      });
+
+      // реализация кнопок
+
+      const addCoctail = document.getElementById('add'); // добавление коктейля
+
+      addCoctail.onclick = function () {
+        coctailName = prompt('Введите название коктейля');
+        alco = prompt('Алкогольный?');
+        ingredients = prompt('Введите ингредиенты');
+        recipe = prompt('Введите рецепт');
+
+        return coctailsStorage.addValue(coctailName, { alco, ingredients, recipe });
+      };
+
+      const askRecipe = document.getElementById('recipe'); // вывод описания коктейля из объекта в html
+
+      askRecipe.onclick = function () {
+        coctailName = prompt('Введите название коктейля');
+
+        return coctailsStorage.storage.hasOwnProperty(coctailName)
+          ? coctailsStorage.addValueOnPage(coctailName)
+          : console.log('Такого коктейля нет в хранилище');
+      };
+
+      const deleteCoctail = document.getElementById('delete'); // удаление коктейля из объекта
+
+      deleteCoctail.onclick = function () {
+        coctailName = prompt('Введите название коктейля');
+
+        if (coctailsStorage.storage.hasOwnProperty(coctailName)) {
+          console.log(`Коктейль ${coctailName} удален из хранилища`);
+          return coctailsStorage.deleteValue(coctailName);
+        } else {
+          console.log('Такого коктейля нет в хранилище');
+        }
+      };
+
+      const showCoctails = document.getElementById('list'); // вывод списка коктейлей в объекте
+
+      showCoctails.onclick = function () {
+        const parentShowCoctails = HashStorage.prototype.getKeys;
+
+        return (coctailsStorage.getKeys = (function () {
+          const coctailsList = Object(parentShowCoctails.call(coctailsStorage));
+
+          const listCoctails = document.getElementById('listCoctails');
+
+          let listCoctailsOnPage = '';
+
+          for (let i = 0; i <= coctailsList.length - 1; i++) {
+          listCoctailsOnPage += `<li>${coctailsList[i]}</li>`;
+          }
+
+          listCoctails.innerHTML = listCoctailsOnPage;
+        })());
+      };
+    </script>
+  </body>
+</html>

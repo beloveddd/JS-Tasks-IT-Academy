@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+    .title {
+      color: blue;
+      text-align: center;
+    }
+
+    .alert {
+      padding: 10px;
+      border-radius: 10px;
+      color: white;
+      background-color: red;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <!-- осмысленный текст -->
+  <h1 class="some-class more-class"><strong>Hi</strong>, <em>there</em>!</h1>
+  <p id="first-p" class="paragraph">Lorem ipsum, dolor sit amet consectetur adipisicing, elit. Eligendi, quos, deserunt. Alias dignissimos debitis maxime commodi, quasi rerum eligendi quis sapiente distinctio saepe tenetur fugit aliquid, aliquam quisquam dolorum veritatis.</p>
+
+  <p><a href="javascript: changeBg();">Меняю фон, дешево!</a></p>
+  <p><button onclick="changeH1();">Затриггерим h1</button></p>
+
+  <div id="test">
+    <p class="paragraph">Осмысленный текст</p>
+
+    <div class="paragraph">
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus, maxime.</p>
+    </div>
+  </div>
+
+  <ol id="list">
+    <li>Элемент 0</li>
+    <li>Элемент 1</li>
+    <li>Элемент 2</li>
+  </ol>
+
+  <p id="test-p">Здесь будет <strong>МАГИЯ</strong>!</p>
+  <p><button id="p-change-button">Меняю содержимое</button></p>
+  <p>
+    <button id="add-alert-btn">Добавить div</button>
+  </p>
+
+  <p>
+    <input id="inputNumber" type="text" value="15">
+    <button id="changeInput">Изменить</button>
+  </p>
+
+  <p>&copy; 2021 Все права мои и только мои!</p>
+
+  <script>
+    /*console.log(document.body.childNodes);
+    console.log(document.body.children);*/
+
+    /*const paragraphsByGet = document.getElementsByClassName("paragraph");
+    const paragraphsByQuery = document.querySelectorAll("p.paragraph");
+
+    console.log(paragraphsByGet);  // живая коллекция
+    console.log(paragraphsByQuery);*/
+
+    /*const myDiv = document.querySelector("#test");
+    console.log(myDiv.querySelectorAll(".paragraph"));*/
+
+    /*document.body.style.backgroundColor = "yellow";
+    document.body.style.color = "green";*/
+    /*document.body.style.cssText = "background-color: red; color: white;";*/
+
+    function changeBg() {
+      // "white" -> cyan -> red -> blue -> green -> white
+      const body = document.body;
+      const bodyBgColor = body.style.backgroundColor;
+
+      switch (bodyBgColor) {
+        case "white": body.style.backgroundColor = "cyan"; break;
+        case "cyan": body.style.backgroundColor = "red"; break;
+        case "red": body.style.backgroundColor = "lightblue"; break;
+        case "lightblue": body.style.backgroundColor = "green"; break;
+        case "green": body.style.backgroundColor = "white"; break;
+        default: body.style.backgroundColor = "cyan";
+      }
+    }
+
+    function changeH1() {
+      const h1 = document.querySelector("h1");
+      h1.classList.toggle("title");
+
+      /*let h1Classes = h1.className;
+      console.log(h1Classes);
+      const h1ClassesArray = h1Classes.split(" ");
+      console.log(h1ClassesArray);
+      h1ClassesArray.push("title");
+      h1.className = h1ClassesArray.join(" ");*/
+    }
+
+    function pChange() {
+      const p = document.querySelector("#test-p");
+      console.dir(p);
+
+      console.log(p.innerHTML);
+      console.log(p.textContent);
+      console.dir(this); //?
+
+      p.innerHTML = "<img src=\"https://www.dw.com/image/16792432_401.jpg\" alt=\"smile\">";
+    }
+    const pChnageBtn = document.querySelector("#p-change-button");
+    pChnageBtn.onclick = pChange;
+
+    const addAlertBtn = document.querySelector("#add-alert-btn");
+    addAlertBtn.addEventListener("click", addNewAlert);
+
+    function addNewAlert() {
+      const newDiv = document.createElement("div");
+      newDiv.classList.add("alert");
+      newDiv.innerHTML = "<strong>Всем привет!</strong> Вы прочитали <strong>важное</strong> сообщение.";
+
+      document.body.prepend(newDiv);
+
+      const alertDivs = document.querySelectorAll(".alert");
+
+      if (alertDivs.length >= 5) {
+        addAlertBtn.removeEventListener("click", addNewAlert);
+      }
+    }
+
+    const myList = document.getElementById("list");
+
+    const pBefore = document.createElement("p");
+    pBefore.textContent = "Я перед списком";
+    myList.before(pBefore); // вставить элемент перед <ol>
+
+    const pAfter = document.createElement("p");
+    pAfter.textContent = "Я после списка";
+    myList.after(pAfter); // вставить элемент после <ol>
+
+    const liFirst = document.createElement("li");
+    liFirst.innerHTML = "<strong>Первый</strong> элемент";
+    myList.prepend(liFirst); // вставить liFirst в начало <ol>
+
+    const liLast = document.createElement("li");
+    liLast.innerHTML = "<strong>Последний</strong> элемент";
+    myList.append(liLast); // вставить liLast в конец <ol>
+
+
+    const myInput = document.getElementById("inputNumber");
+    myInput.focus();
+
+    const changeInputBtn = document.getElementById("changeInput");
+    changeInputBtn.addEventListener("click", changeInput);
+
+    function changeInput() {
+      const myInput = document.getElementById("inputNumber");
+      console.log(myInput);
+      console.log(myInput.value);
+      console.log(myInput.type);
+      console.log(myInput.id);
+      myInput.value++;
+    }
+
+    myInput.addEventListener("blur", function() {
+      console.log(`input value = ${this.value}`);
+    });
+
+  </script>
+</body>
+</html>
+
+
+
+
+

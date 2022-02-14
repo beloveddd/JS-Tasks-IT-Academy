@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Часы</title>
+
+</head>
+<style>
+    #digitalClock {
+        font-size: 20px;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        position: absolute;
+        top: 200px;
+        left: 222px;
+    }
+</style>
+<body>
+    <div id = "digitalClock"></div>
+
+    <canvas id="clock" width="500" height="500"></canvas>
+
+        <script>
+
+            window.onload = function() {
+                window.setInterval(() => {
+                let date = new Date();
+                let hours = date.getHours();
+                let minutes = date.getMinutes();
+                let seconds = date.getSeconds();
+                let clock = `${hours}:${minutes}:${seconds}`;
+                document.getElementById('digitalClock').innerHTML = clock;
+                drawClock();
+
+            }, 1000);
+            }
+
+            function drawClock() {
+                const canvasClock = document.getElementById("clock");
+                canvasClock.parentElement.style.display = "block";
+
+                if (canvasClock && canvasClock.getContext("2d")) {
+                
+                    let ctx = canvasClock.getContext("2d");
+
+
+                    // Расчет координат центра и радиуса часов
+                    const radiusClock = canvasClock.width/2 - 50;
+                    const centerX = canvasClock.width/2;
+                    const centerY = canvasClock.width/2;
+
+                    ctx.fillStyle = 'white';
+                    ctx.fillRect(0, 0, canvasClock.width, canvasClock.height);
+
+                    ctx.fillStyle = "rgb(238, 248, 159)";
+                    
+                    // Рисуем круг часов
+                    ctx.beginPath();
+                    ctx.arc(centerX, centerY, radiusClock, 0, 2*Math.PI);
+                    ctx.fill();
+
+                    // Рисуем круги и числа
+                    let angle = 30;
+                    let angleRadians;
+                    let radius = radiusClock * 0.85;
+                    let radiusNumbers = radiusClock/10;
+
+                    for (i = 1; i <= 12; i++) {
+
+                        ctx.fillStyle = "rgb(226, 247, 71)";
+
+                        // Рисуем круги для чисел
+                        
+                        angleRadians = parseFloat(angle)/180*Math.PI;
+
+                        let x = centerX + radius * Math.sin(angleRadians);
+                        let y = centerY - radius * Math.cos(angleRadians);
+
+                        ctx.beginPath();
+                        ctx.arc(x, y, radiusNumbers, 0, 2*Math.PI);
+                        ctx.fill();
+
+                        angle += 30;
+
+                        // Рисуем цифры
+
+                        ctx.fillStyle = "black";
+                        let theString = `${i}`;
+                        ctx.font = "3vh Trebuchet MS";
+
+                        if (i <= 9) {
+                            ctx.fillText(theString, x*0.99, y*1.02);
+                        } else {
+                            ctx.fillText(theString, x*0.97, y*1.02);
+                        }
+                    }
+
+                        // Рисуем стрелки
+                        const lengthSec = radius * 0.7;
+                        console.log(lengthSec);
+                        const lengthMin = radius * 0.6;
+                        const lengthHr = radius * 0.4;
+
+                        let day = new Date();
+                        let hh = day.getHours() * 30;
+                        let mm = day.getMinutes() * 6;
+                        let ss = day.getSeconds() * 6;
+
+                        // Рисуем стрелку часов
+                        ctx.lineCap = "round";
+                        ctx.strokeStyle = "orange";
+                        ctx.lineWidth = 8;
+                        ctx.beginPath();
+                        ctx.moveTo(centerX, centerY);
+                        ctx.lineTo(centerX + lengthHr*Math.cos( Math.PI / 2 - hh * (Math.PI / 180) ), centerY - lengthHr*Math.sin( Math.PI / 2 - hh * (Math.PI / 180) ));
+                        ctx.stroke();
+                        
+                        // Рисуем стрелку минут     
+                        ctx.lineCap = "round";
+                        ctx.strokeStyle = "white";
+                        ctx.lineWidth = 4;
+                        ctx.beginPath();
+                        ctx.moveTo(centerX, centerY);
+                        ctx.lineTo(centerX + lengthMin*Math.cos( Math.PI / 2 - mm * (Math.PI / 180) ), centerY - lengthMin*Math.sin( Math.PI / 2 - mm * (Math.PI / 180) ));
+                        ctx.stroke();
+                        
+                        // Рисуем стрелку секунд
+                        ctx.lineCap = "round";
+                        ctx.strokeStyle = "red";
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(centerX, centerY);
+                        ctx.lineTo(centerX + lengthSec*Math.cos( Math.PI / 2 - ss * (Math.PI / 180) ), centerY - lengthSec*Math.sin( Math.PI / 2 - ss * (Math.PI / 180) ));
+                        ctx.stroke();
+
+                        // Рисуем круг для стрелок
+                        let radiusCenter = radiusClock/20;
+
+                        ctx.fillStyle = "white";
+                        ctx.beginPath();
+                        ctx.arc(centerX, centerY, radiusCenter, 0, 2*Math.PI);
+                        ctx.fill();
+                                       
+                }
+                
+            }
+
+        </script>
+    </div>

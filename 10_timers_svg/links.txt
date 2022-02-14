@@ -1,0 +1,9 @@
+SVG:
+0) https://editor.method.ac/
+1) https://jakearchibald.github.io/svgomg/
+2) https://developer.mozilla.org/ru/docs/Web/SVG
+3) https://developer.mozilla.org/ru/docs/Web/SVG/Tutorial
+4) https://developer.mozilla.org/ru/docs/Web/SVG/Tutorial/SVG_In_HTML_Introduction
+
+Таймеры:
+https://learn.javascript.ru/settimeout-setinterval

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css.css">
+</head>
+<body>
+
+    <div class="form">
+        <p>Enter your name:</p>
+        <input type="text" id="name">
+        <p>Enter your date of birth:</p>
+        <input type="date" id="data">
+        <button id="send">OK</button>
+    </div>
+    <div class="content"></div>
+
+    <div class="countdown-container">
+      <h1 class="countdown-title"></h1>
+      <div id="countdown" class="countdown">
+        <div class="countdown-number">
+          <span class="month countdown-time"></span>
+          <span class="countdown-text">Months</span>
+        </div>
+        <div class="countdown-number">
+          <span class="days countdown-time"></span>
+          <span class="countdown-text">Days</span>
+        </div>
+        <div class="countdown-number">
+          <span class="hours countdown-time"></span>
+          <span class="countdown-text">Hours</span>
+        </div>
+        <div class="countdown-number">
+          <span class="minutes countdown-time"></span>
+          <span class="countdown-text">Minutes</span>
+        </div>
+        <div class="countdown-number">
+          <span class="seconds countdown-time"></span>
+          <span class="countdown-text">Seconds</span>
+        </div>
+      </div>
+    </div>
+    
+
+    <script>
+
+        const countdownContainer = document.querySelector('.countdown-container');
+        countdownContainer.hidden = true;
+
+            if (window.localStorage.getItem("UserSuperDateName")) {
+                const form = document.querySelector(".form");
+                form.hidden = true;
+                countdownContainer.hidden = false;
+                const divName = document.querySelector('.countdown-title');
+
+                let user = JSON.parse(window.localStorage.getItem("UserSuperDateName"));
+                
+                divName.innerHTML = `<p><b> Hello, ${user.name}!</b></p> <p>Your birthday starts in:</p>`;
+
+                //обратный отсчет
+                function countLeftTime(date1, date2) {
+                  return date2 - date1;
+                }
+
+                let userDataRes = function() {
+                  let d = new Date();
+                  let thisYear = d.getFullYear();
+                  let thisMonth = d.getMonth()+1;
+                  let thisDate = d.getDate();
+                  let correctYear;
+
+                    if (thisMonth < user.month) {
+                        correctYear = thisYear;
+                    } else if (thisMonth === user.month) {
+                        if (thisDate <= user.day) {
+                            correctYear = thisYear;
+                        } else {
+                            correctYear = thisYear+1;
+                        }
+                    } else {
+                        correctYear = thisYear+1;
+                    }
+                  return {
+                      'year': correctYear,
+                      'months': user.month,
+                      'days': user.day,
+                      'hours': "00",
+                      'minutes': "00",
+                      'seconds': "00"
+                  };
+
+                }
+
+                let userData = userDataRes();
+
+                let userDataStr = `${userData.year}-${userData.months}-${userData.days}T${userData.hours}:${userData.minutes}:${userData.seconds}`;
+
+                function initializeClock(id) {
+                    const clock = document.getElementById(id);
+                    const monthSpan = clock.querySelector('.month')
+                    const daysSpan = clock.querySelector('.days');
+                    const hoursSpan = clock.querySelector('.hours');
+                    const minutesSpan = clock.querySelector('.minutes');
+                    const secondsSpan = clock.querySelector('.seconds');
+
+                    function updateClock() {
+                      let now = new Date();
+                      let dateOfBirth = new Date(userDataStr);
+                      let msLeft = countLeftTime(now, dateOfBirth);
+                      let res = new Date(msLeft);
+
+                        monthSpan.innerHTML = res.getUTCMonth();
+                        daysSpan.innerHTML = res.getUTCDate();
+                        hoursSpan.innerHTML = res.getUTCHours();
+                        minutesSpan.innerHTML = res.getUTCMinutes();
+                        secondsSpan.innerHTML = res.getUTCSeconds();
+
+                    }
+
+                    updateClock();
+
+                    let timeinterval = setInterval(updateClock, 1000);
+                    }
+
+                initializeClock('countdown');
+
+            } 
+        
+        const button = document.querySelector('#send');
+        button.disabled = true;
+
+        const name = document.querySelector('#name');
+        const data = document.querySelector('#data');
+        name.addEventListener('change', readValue);
+        data.addEventListener('change', readValue);
+
+        function readValue() {
+        if (name.value && data.value) {
+          button.disabled = false;
+        } else {
+            button.disabled = true;
+        }
+        }
+
+        button.addEventListener("click", getData);
+
+        let obj = {};
+
+        function getData() {
+          window.location.reload();
+            let dataStr = data.value;
+            let date = dataStr.split('-');
+
+            obj.name = name.value;
+            obj.day = date[2];
+            obj.month = date[1];
+            obj.year = date[0];
+
+            window.localStorage.setItem("UserSuperDateName", JSON.stringify(obj));
+            // сохраняю в  localStorage, т.к. он хранит данные в течение неограниченного количества времени.
+            // А SessionStorage хранит данные только во время текущей сессии (для вкладки, пока она открыта).
+      }
+
+
+
+    </script>
+</body>
+</html>

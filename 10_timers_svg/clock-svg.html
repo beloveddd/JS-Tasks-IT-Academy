@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Часы</title>
+
+</head>
+<style>
+    #clock {
+        font-size: 20px;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        position: absolute;
+        top:50%;
+        left: 44%;
+    }
+
+    .numb {
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        font-size: 3vh;
+    }
+
+    svg {
+        margin: 0 auto;
+    }
+</style>
+<body>
+
+    <div id="clock"></div>
+
+        <script>
+
+            const hour = document.querySelector('#hour');
+            const min = document.querySelector('#min');
+            const sec = document.querySelector('#sec');
+
+            window.onload = function() {
+                window.setInterval(() => {
+                let date = new Date();
+                let hours = date.getHours();
+                let minutes = date.getMinutes();
+                let seconds = date.getSeconds();
+                let clock = `${hours}:${minutes}:${seconds}`;
+                document.getElementById('clock').innerHTML = clock;
+
+            });
+            }
+
+            // круглые часы
+            const svgNS = "http://www.w3.org/2000/svg";
+            const circle = document.createElementNS(svgNS,"circle");
+            let angle = 30;
+            let angleRadians;
+            const hr = document.createElementNS(svgNS,"line");
+            const sc = document.createElementNS(svgNS,"line");
+            const mn = document.createElementNS(svgNS,"line");
+            const circleCenter = document.createElementNS(svgNS,"circle");
+            const svg = document.createElementNS(svgNS, "svg");
+            
+            svg.setAttributeNS(null, "width", 500);
+            svg.setAttributeNS(null, "height", 500);
+            svg.setAttributeNS(null, "id", "svg");
+            svg.setAttributeNS(null, "display", "flex");
+            svg.setAttributeNS(null, "justify-content", "center");
+            svg.setAttributeNS(null, "align-items", "center");
+            document.body.append(svg);
+
+            let radiusClock = (svg.getAttribute("width")-100)/2;
+            let radius = (svg.getAttribute("width")-100)/2.3;
+
+            circle.setAttributeNS(null, 'cx', '50%');
+            circle.setAttributeNS(null, 'cy', '50%');
+            circle.setAttributeNS(null, 'r', radiusClock);
+            circle.setAttributeNS(null, 'fill', 'rgb(238, 248, 159)');
+            svg.append(circle);
+
+            for (i = 1; i <= 12; i++) {
+                let numbersCircle = document.createElementNS(svgNS,"circle");
+                let radiusNumbers = radiusClock/10;
+
+                angleRadians = parseFloat(angle)/180*Math.PI;
+
+                let centerX = svg.getAttribute("width")/2;
+                let centerY = svg.getAttribute("height")/2;
+
+                let cx = centerX + radius * Math.sin(angleRadians) + "px";
+                let cy = centerY - radius * Math.cos(angleRadians) + "px";
+                
+                numbersCircle.setAttributeNS(null, 'cx', cx);
+                numbersCircle.setAttributeNS(null, 'cy', cy);
+                numbersCircle.setAttributeNS(null, 'r', radiusNumbers);
+                numbersCircle.setAttributeNS(null, 'fill', 'rgb(226, 247, 71)');
+                svg.append(numbersCircle);
+
+                let textCircle = document.createElementNS(svgNS,"text");
+                textCircle.textContent = i;
+                textCircle.classList = "numb";
+                
+                svg.append(textCircle);
+
+                let collection = document.getElementsByClassName("numb");
+
+                [].forEach.call(collection, ((element) => {
+
+                let cx =  Math.round(centerX*0.97 + (radius) * Math.sin(angleRadians)) + "px";
+                let cy =  Math.round(centerY*1.009 - (radius) * Math.cos(angleRadians)) + "px";
+
+                textCircle.setAttributeNS(null, 'x', cx);
+                textCircle.setAttributeNS(null, 'y', cy);
+            }));
+                
+                angle += 30;
+
+            }
+
+            hr.setAttributeNS(null, 'x1', '50%');
+            hr.setAttributeNS(null, 'y1', '50%');
+            hr.setAttributeNS(null, 'x2', '50%');
+            hr.setAttributeNS(null, 'y2', '150');
+            hr.setAttributeNS(null, 'stroke', 'orange');
+            hr.setAttributeNS(null, 'stroke-width', '8');
+            hr.setAttributeNS(null, "id", "hour");
+            hr.setAttributeNS(null, "transform-origin", "center center");
+            hr.setAttributeNS(null, "stroke-linecap", "round");
+
+            svg.append(hr);
+
+            mn.setAttributeNS(null, 'x1', '50%');
+            mn.setAttributeNS(null, 'y1', '50%');
+            mn.setAttributeNS(null, 'x2', '50%');
+            mn.setAttributeNS(null, 'y2', '90');
+            mn.setAttributeNS(null, 'stroke', 'white');
+            mn.setAttributeNS(null, 'stroke-width', '4');
+            mn.setAttributeNS(null, "id", "min");
+            mn.setAttributeNS(null, "transform-origin", "center center");
+            mn.setAttributeNS(null, "stroke-linecap", "round");
+
+            svg.append(mn);
+
+            sc.setAttributeNS(null, 'x1', '50%');
+            sc.setAttributeNS(null, 'y1', '50%');
+            sc.setAttributeNS(null, 'x2', '50%');
+            sc.setAttributeNS(null, 'y2', '110');
+            sc.setAttributeNS(null, 'stroke', 'red');
+            sc.setAttributeNS(null, 'stroke-width', '2');
+            sc.setAttributeNS(null, "id", "sec");
+            sc.setAttributeNS(null, "transform-origin", "center center");
+            sc.setAttributeNS(null, "stroke-linecap", "round");
+
+            svg.append(sc);
+
+            let radiusWhite = radiusClock/20;
+
+            circleCenter.setAttributeNS(null, 'cx', '50%');
+            circleCenter.setAttributeNS(null, 'cy', '50%');
+            circleCenter.setAttributeNS(null, 'r', radiusWhite);
+            circleCenter.setAttributeNS(null, 'fill', 'white');
+
+            svg.append(circleCenter);
+            
+            setInterval(() => {
+                let day = new Date();
+                let hh = day.getHours() * 30;
+                let mm = day.getMinutes() * 6;
+                let ss = day.getSeconds() * 6;
+                hr.style.transform = `rotateZ(${(hh) + (mm/12)}deg)`;
+                mn.style.transform = `rotateZ(${mm}deg)`;
+                sc.style.transform = `rotateZ(${ss}deg)`;
+            });
+
+
+        </script>
+    </div>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Hello!</h1>
+  <p>&copy; 2021 Все права мои и только мои!</p>
+
+  <script>
+    // this -- это ссылка на объект
+    // 1) this === window (или undefind при "use strict"), если функция просто вызвана
+    // 2) this === объекту до точки, если вызвана как метод этого объекта
+    // 3) this === объекту, переданному аргументом в call, apply или bind
+    // 4) this === новому создаваемому объекту при вызове класса или функции-конструктора через ключевое слово new
+
+    function userSayHi(arg1, arg2) {
+      console.log("Hello from");
+      console.log(this);
+      console.log(arg1);
+      console.log(arg2);
+    }
+
+    function showJobTitle() {
+      console.log("I'm work as " + this.job);
+    }
+
+    function showName() {
+      console.log(`Hello, my name is ${this.name}!`);
+    }
+
+    userSayHi();
+    showName();
+
+    const user = {
+      // this = user
+      name: "Yuri",
+      surname: "Semenenko",
+      level: "36",
+      sayHi: userSayHi,
+      showName: showName
+    }
+
+    user.showName();
+    user.sayHi();
+
+    const employee = {
+      // this = employee
+      name: "Sveta",
+      surname: "Ivanova",
+      level: "21",
+      job: "QA",
+      salary: 800,
+      sayHi: userSayHi,
+      showJobTitle: showJobTitle,
+      showName: showName,
+      showSalary: function() {
+        console.log("salary = " + this.salary);
+      }
+    }
+
+    employee.showName();
+    employee.showJobTitle();
+    employee.showSalary();
+
+    const employee2 = {
+      name: "Ivan",
+      surname: "Petrov",
+      level: "28",
+      job: "Tech Lead QA team",
+      salary: 3200
+    }
+
+    userSayHi.call(employee2, "бла-бла", "bla-bla");
+    userSayHi.apply(employee2, ["бла-бла", "bla-bla"]);
+    const employee2ShowSalary = employee.showSalary.bind(employee2);
+    //console.log(employee2ShowSalary);
+    employee2ShowSalary();
+
+    function randomDiap(n ,m) {
+      return Math.floor(Math.random()*(m-n+1))+n;
+    }
+
+    console.log(randomDiap(1, 10));
+    console.log(randomDiap(1, 100));
+    console.log(randomDiap(100, 1000));
+
+    console.log(new String("str"));
+
+
+  </script>
+</body>
+</html>
+
+
+
+
+
